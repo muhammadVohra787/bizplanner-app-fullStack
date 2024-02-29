@@ -13,7 +13,7 @@ import {
   Modal,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import "../views/home.css";
+import "../styles/home.css";
 
 export default function SignIn() {
   const handleSubmit = (event) => {

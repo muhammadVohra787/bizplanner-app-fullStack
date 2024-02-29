@@ -1,7 +1,7 @@
 import React from "react";
 import FeatureCard from "../components/feature-card";
 import Question1 from "../components/question1";
-import "./home.css";
+import "../styles/home.css";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import { Box } from "@mui/material";
