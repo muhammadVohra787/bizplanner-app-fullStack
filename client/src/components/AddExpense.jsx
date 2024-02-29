@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   TextField,
@@ -28,7 +28,7 @@ const PlusIcon = createSvgIcon(
   </svg>,
   "Plus"
 );
-const AddExpense = () => {
+const AddExpense = ({ onExpenseChange }) => {
   const [expenses, setExpenses] = useState([
     {
       expName: "",
@@ -55,7 +55,35 @@ const AddExpense = () => {
     );
     setExpenses(updatedExpenses);
   };
+  useEffect(() => {
+    onExpenseChange(expenses);
+  }, [onExpenseChange, expenses]);
 
+  const testObj = () => {
+    setExpenses([
+      {
+        expName: "exp#1",
+        amount: "100",
+      },
+      {
+        expName: "exp#2",
+        amount: "200",
+      },
+      {
+        expName: "exp#3",
+        amount: "300",
+      },
+      {
+        expName: "exp#4",
+        amount: "400",
+      },
+      {
+        expName: "exp#5",
+        amount: "500",
+      },
+      // Add more objects as needed
+    ]);
+  };
   return (
     <Box>
       {expenses.map((expense, index) => {
@@ -88,14 +116,14 @@ const AddExpense = () => {
                 ),
               }}
             />
-              <Notify
-                message={"Expense: "+expense.expName + " is deleted"}
-                onClick={() => handleDelete(index)}
-                messageType={"warning"}
-                action="delete"
-              >
-                <DeleteIcon />
-              </Notify>
+            <Notify
+              message={"Expense: " + expense.expName + " is deleted"}
+              onClick={() => handleDelete(index)}
+              messageType={"warning"}
+              action="delete"
+            >
+              <DeleteIcon />
+            </Notify>
             <br />
           </Box>
         );
@@ -110,6 +138,13 @@ const AddExpense = () => {
         <Typography variant="h7" fontWeight={"fontWeightLight"}>
           Add a new Expense
         </Typography>
+      </Button>
+      <Button
+        onClick={() => {
+          testObj();
+        }}
+      >
+        Test Values
       </Button>
     </Box>
   );

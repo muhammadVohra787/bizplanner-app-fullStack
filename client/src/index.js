@@ -5,8 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import "./index.css";
-import { Container, createTheme, ThemeProvider } from "@mui/material";
-import { deepPurple, red } from "@mui/material/colors";
+import { createTheme, ThemeProvider } from "@mui/material";
 import "./style.css";
 import Footer from "./components/Footer";
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -35,9 +34,9 @@ root.render(
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <Navbar />
-        <Container maxWidth="xl">
-          <App />
-        </Container>
+
+        <App />
+
         <Footer />
       </ThemeProvider>
     </BrowserRouter>

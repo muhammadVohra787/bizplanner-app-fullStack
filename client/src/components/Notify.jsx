@@ -10,7 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 const Notify = ({ messageType, message, action, onClick }) => {
   const [isChecked, setIsChecked] = useState(false);
   const capitalized =
-  messageType.charAt(0).toUpperCase() + messageType.slice(1);
+    messageType.charAt(0).toUpperCase() + messageType.slice(1);
   useEffect(() => {
     if (isChecked && action === "done") {
       createNotification();
@@ -20,7 +20,7 @@ const Notify = ({ messageType, message, action, onClick }) => {
   const createNotification = () => {
     switch (messageType) {
       case "info":
-        NotificationManager.info(message,capitalized, 2000);
+        NotificationManager.info(message, capitalized, 2000);
         break;
       case "success":
         NotificationManager.success(message, capitalized, 2000);
@@ -46,7 +46,7 @@ const Notify = ({ messageType, message, action, onClick }) => {
     console.log(action);
     if (action === "delete" && onClick) {
       createNotification();
-      onClick()
+      onClick();
     }
   };
 
@@ -56,10 +56,10 @@ const Notify = ({ messageType, message, action, onClick }) => {
         <Checkbox
           color="success"
           onChange={handleCheckboxChange}
-          sx={{ marginTop: "8px" }}
+          sx={{ marginTop: "18px" }}
         />
       ) : action === "delete" ? (
-        <Button onClick={handleDeleteClick} sx={{ marginTop: "8px" }}>
+        <Button onClick={handleDeleteClick} sx={{ marginTop: "15px" }}>
           <DeleteIcon />
         </Button>
       ) : null}

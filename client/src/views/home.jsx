@@ -1,12 +1,10 @@
 import React from "react";
-
-import { Helmet } from "react-helmet";
-
 import FeatureCard from "../components/feature-card";
 import Question1 from "../components/question1";
 import "./home.css";
 import Typography from "@mui/material/Typography";
-
+import { Link } from "react-router-dom";
+import { Box } from "@mui/material";
 const Home = (props) => {
   return (
     <div className="home-container">
@@ -17,77 +15,28 @@ const Home = (props) => {
               Empower Your Business Ideas
             </h1>
             <span className="home-hero-sub-heading bodyLarge">
-              <span>
-                <span>
-                  <span>Take control of your entrepreneurial journey</span>
-                  <span>
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: " ",
-                      }}
-                    />
-                  </span>
-                </span>
-                <span>
-                  <span>
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: " ",
-                      }}
-                    />
-                  </span>
-                  <span>
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: " ",
-                      }}
-                    />
-                  </span>
-                </span>
-              </span>
-              <span>
-                <span>
-                  <span>
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: " ",
-                      }}
-                    />
-                  </span>
-                  <span>
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: " ",
-                      }}
-                    />
-                  </span>
-                </span>
-                <span>
-                  <span>
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: " ",
-                      }}
-                    />
-                  </span>
-                  <span>
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: " ",
-                      }}
-                    />
-                  </span>
-                </span>
-              </span>
+              <span>Take control of your entrepreneurial journey</span>
             </span>
             <div className="home-btn-group">
-              <button className="buttonFilled">Get Started</button>
-              <button className="buttonFlat">Learn More →</button>
+              <Link className="buttonFilled" to="/createnew">
+                Get Started
+              </Link>
+              <a className="buttonFlat" href="#home-features">
+                Learn More →
+              </a>
             </div>
           </div>
         </div>
       </div>
-      <div className="home-features">
+
+      <div
+        className="home-features"
+        id="home-features"
+        style={{
+          backgroundColor: "#f1ddd9",
+          maxWidth: "100% !important",
+        }}
+      >
         <div className="featuresContainer">
           <div className="home-features1">
             <div className="home-container02">
@@ -105,67 +54,11 @@ const Home = (props) => {
                       Discover how our platform can help you effectively manage
                       and grow your business
                     </span>
-                    <span>
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: " ",
-                        }}
-                      />
-                    </span>
-                  </span>
-                  <span>
-                    <span>
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: " ",
-                        }}
-                      />
-                    </span>
-                    <span>
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: " ",
-                        }}
-                      />
-                    </span>
-                  </span>
-                </span>
-                <span>
-                  <span>
-                    <span>
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: " ",
-                        }}
-                      />
-                    </span>
-                    <span>
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: " ",
-                        }}
-                      />
-                    </span>
-                  </span>
-                  <span>
-                    <span>
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: " ",
-                        }}
-                      />
-                    </span>
-                    <span>
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: " ",
-                        }}
-                      />
-                    </span>
                   </span>
                 </span>
               </span>
             </div>
+
             <div className="home-container03">
               <FeatureCard
                 heading="Business Idea Management"
@@ -187,6 +80,7 @@ const Home = (props) => {
           </div>
         </div>
       </div>
+
       <div className="home-pricing">
         <div className="pricingContainer">
           <div className="home-container04">
@@ -338,8 +232,9 @@ const Home = (props) => {
       <div className="home-banner">
         <div className="bannerContainer home-banner1">
           <h1 className="home-banner-heading heading2">
-            Welcome to Business Idea Manager
+            Welcome to BizPlanner
           </h1>
+          
           <span className="home-banner-sub-heading bodySmall">
             <span>
               <span>
@@ -349,71 +244,16 @@ const Home = (props) => {
                   challenges, and set achievable goals. With our user-friendly
                   tools, you can turn your visions into reality.
                 </span>
-                <span>
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: " ",
-                    }}
-                  />
-                </span>
-              </span>
-              <span>
-                <span>
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: " ",
-                    }}
-                  />
-                </span>
-                <span>
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: " ",
-                    }}
-                  />
-                </span>
-              </span>
-            </span>
-            <span>
-              <span>
-                <span>
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: " ",
-                    }}
-                  />
-                </span>
-                <span>
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: " ",
-                    }}
-                  />
-                </span>
-              </span>
-              <span>
-                <span>
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: " ",
-                    }}
-                  />
-                </span>
-                <span>
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: " ",
-                    }}
-                  />
-                </span>
               </span>
             </span>
           </span>
-          <button className="buttonFilled">Learn More</button>
+          <Link className="buttonFilled" to="/createnew">
+            Get Started
+          </Link>
         </div>
       </div>
       <div className="home-faq">
-        <div className="faqContainer" >
+        <div className="faqContainer">
           <div className="home-faq1">
             <div className="home-container29">
               <span className="overline">

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import "../views/home.css";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
-
+import SignIn from "./SignInModal";
+import SignUp from "./SignUpModal";
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -11,7 +12,7 @@ const Navbar = () => {
   };
 
   const closeMobileMenu = (event) => {
-    event.stopPropagation(); // Prevent event propagation
+    event.stopPropagation(); 
     setIsMobileMenuOpen(false);
   };
 
@@ -20,7 +21,7 @@ const Navbar = () => {
       data-thq="thq-navbar"
       className="navbarContainer home-navbar-interactive"
     >
-      <span className="logo">ENTREPRENEURS </span>
+      <span className="logo">BizPlanner</span>
       <div data-thq="thq-navbar-nav" className="home-desktop-menu">
         <nav className="home-links">
           <Link className="bodySmall" to="/">
@@ -32,8 +33,8 @@ const Navbar = () => {
           <Link className="home-nav52 bodySmall">Goals</Link>
         </nav>
         <div className="home-buttons">
-          <button className="home-login buttonFlat">Login</button>
-          <button className="buttonFilled">Register</button>
+          <SignIn className="home-login buttonFlat" />
+          <SignUp className="buttonFilled" />
         </div>
       </div>
       <div
@@ -85,9 +86,10 @@ const Navbar = () => {
                 Goals
               </Link>
             </nav>
+            {/* mobile Version */}
             <div className="home-buttons1">
-              <button className="buttonFlat">Login</button>
-              <button className="buttonFilled">Register</button>
+              <SignIn className="home-login buttonFlat" />
+              <SignUp className="buttonFilled" />
             </div>
           </div>
         </div>
