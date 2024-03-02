@@ -4,8 +4,8 @@ import Question1 from "../components/question1";
 import "../styles/home.css";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
-import { Box } from "@mui/material";
-const Home = (props) => {
+
+const Home = (props) => { 
   return (
     <div className="home-container">
       <div className="home-hero">
@@ -18,7 +18,7 @@ const Home = (props) => {
               <span>Take control of your entrepreneurial journey</span>
             </span>
             <div className="home-btn-group">
-              <Link className="buttonFilled" to="/createnew">
+              <Link className="buttonFilled" to="/newIdea">
                 Get Started
               </Link>
               <a className="buttonFlat" href="#home-features">
@@ -234,7 +234,7 @@ const Home = (props) => {
           <h1 className="home-banner-heading heading2">
             Welcome to BizPlanner
           </h1>
-          
+
           <span className="home-banner-sub-heading bodySmall">
             <span>
               <span>

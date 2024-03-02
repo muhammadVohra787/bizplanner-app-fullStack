@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const jwt = require("jsonwebtoken");
 const createUser = async (req, res) => {
   const { name, email, password } = req.body;
   try {
@@ -35,8 +36,20 @@ const signInUser = async (req, res) => {
     if (!isAuthenticated) {
       return res.status(400).json({ message: "Wrong Password", type: false });
     }
+    const token = jwt.sign(
+      { userId: existingUser.id },
+      process.env.SECRET_KEY,
+      { expiresIn: "20m" }
+    );
 
-    return res.status(200).json({ message: "Login successful", type: true });
+    return res
+      .status(200)
+      .json({
+        token,
+        expiresIn: "20m",
+        message: "Login successful",
+        type: true,
+      });
   } catch (err) {
     console.error("Error signing in user:", err);
     res.status(500).json({ message: "Internal server error" });

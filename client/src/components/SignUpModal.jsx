@@ -10,13 +10,14 @@ import {
   Modal,
   CircularProgress,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { SignUpApi } from "../api/user-authentication";
+import { usePost } from "../api/user-authentication";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import useValidation from "../api/input-validation";
-
-export default function SignUp() {
+import SignIn from "./SignInModal";
+export default function SignUp({ type, text, style }) {
   const [open, setOpen] = useState(false);
   const { validate, errors: validationErrors } = useValidation();
   const [loginMsgBox, setLoginMsgBox] = useState(false);
@@ -25,7 +26,7 @@ export default function SignUp() {
     type: "",
     icon: "",
   });
-  const { isPending, mutateAsync } = SignUpApi();
+  const { isPending, mutateAsync } = usePost();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -35,7 +36,7 @@ export default function SignUp() {
       password: dataForm.get("password"),
       name: dataForm.get("firstName") + " " + dataForm.get("lastName"),
     };
-  
+
     const nameValidation = validate("name", userData.name);
     const emailValidation = validate("email", userData.email);
     const passwordValidation = validate("password", userData.password);
@@ -48,7 +49,7 @@ export default function SignUp() {
         icon: "",
       });
 
-      mutateAsync(userData).then((res) => {
+      mutateAsync({ postData: userData, url: "createuser" }).then((res) => {
         setLoginMsgBox(true);
         setResponseMsg({
           messageRes: res.data.message,
@@ -97,11 +98,32 @@ export default function SignUp() {
   const handleMsgBoxClose = () => {
     setLoginMsgBox(false);
   };
-
+  const handleCloseAll = () => {
+    setLoginMsgBox(false);
+    setOpen(false);
+    setResponseMsg({
+      responseMsg: "",
+      type: "",
+      icon: "",
+    });
+  };
   return (
-    <Container component="main" maxWidth="xs">
-      <Button variant="contained" color="primary" onClick={handleToggle}>
-        Register
+    <Box
+      sx={{
+        paddingRight: "10px",
+        margin: "0px",
+      }}
+    >
+      <Button
+        variant={type}
+        color="primary"
+        onClick={handleToggle}
+        className="RegisterBtn"
+        sx={{
+          ...style,
+        }}
+      >
+        {text}
       </Button>
       <Modal
         open={open}
@@ -129,6 +151,19 @@ export default function SignUp() {
               alignItems: "center",
             }}
           >
+            <Button
+              onClick={handleCloseAll}
+              style={{
+                position: "fixed",
+                top: 25,
+                right: 25,
+                padding: 0,
+                minWidth: 0,
+                margin: 0,
+              }}
+            >
+              <CloseIcon />
+            </Button>
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <LockOutlinedIcon />
             </Avatar>
@@ -202,6 +237,18 @@ export default function SignUp() {
               >
                 Sign Up
               </Button>
+
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <a onClick={handleCloseAll}>
+                    <SignIn
+                      text="Already have an account? Sign in"
+                      type="text"
+                      style={{ fontSize: "12px" }}
+                    />
+                  </a>
+                </Grid>
+              </Grid>
             </Box>
           </Box>
         </Box>
@@ -251,6 +298,6 @@ export default function SignUp() {
           )}
         </Box>
       </Modal>
-    </Container>
+    </Box>
   );
 }

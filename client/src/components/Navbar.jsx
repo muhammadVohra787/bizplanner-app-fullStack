@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "../styles/home.css";
 import { Link } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import SignIn from "./SignInModal";
 import SignUp from "./SignUpModal";
+import useSignOut from "react-auth-kit/hooks/useSignOut";
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -12,10 +13,10 @@ const Navbar = () => {
   };
 
   const closeMobileMenu = (event) => {
-    event.stopPropagation(); 
+    event.stopPropagation();
     setIsMobileMenuOpen(false);
   };
-
+  const signOut = useSignOut();
   return (
     <header
       data-thq="thq-navbar"
@@ -32,10 +33,19 @@ const Navbar = () => {
           <Link className="home-nav42 bodySmall">Challenges</Link>
           <Link className="home-nav52 bodySmall">Goals</Link>
         </nav>
-        <div className="home-buttons">
-          <SignIn className="home-login buttonFlat" />
-          <SignUp className="buttonFilled" />
-        </div>
+        <Box sx={{ display: "flex" }}>
+          <SignIn type="text" text="Login" />
+          <SignUp  type="contained" text="Register" />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={(e) => {
+              signOut();
+            }}
+          >
+            Sign Out
+          </Button>
+        </Box>
       </div>
       <div
         data-thq="thq-burger-menu"
