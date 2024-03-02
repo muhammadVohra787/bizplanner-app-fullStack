@@ -7,6 +7,11 @@ const pool = new Pool({
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
   });  
-pool.connect();
+try{
+  pool.connect();
+  console.log("Database Connected")
+}catch(err){
+  console.log(err)
+}
 
 module.exports=pool

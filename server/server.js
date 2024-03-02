@@ -1,22 +1,16 @@
-const express = require('express');
-require('dotenv').config();
-const db = require('./db')
+const express = require("express");
+require("dotenv").config();
+const db = require("./db");
 const app = express();
+const cors = require("cors");
+const bodyParser= require("body-parser")
 const port = 7100;
+const userRoutes = require('./routes/user.routes')
+app.use(cors());
+app.use( bodyParser.json() )
+app.use( bodyParser.urlencoded( { extended: true } ) )
 
-
-app.get('/', async (req, res) => {
-  try {
-    console.log('Attempting to connect to the database...');
-    await db.query('SELECT 1');
-    console.log('Database connection successful');
-    res.send('Database connected successfully');
-  } catch (err) {
-    console.error('Error connecting to database:', err);
-    res.status(500).send('Database connection failed');
-  }
-});
-
+app.use("/api", userRoutes);
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

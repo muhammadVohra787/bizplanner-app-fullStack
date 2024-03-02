@@ -8,6 +8,8 @@ import "./index.css";
 import { createTheme, ThemeProvider } from "@mui/material";
 import "./style.css";
 import Footer from "./components/Footer";
+import {QueryClientProvider,QueryClient} from '@tanstack/react-query'
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const theme = createTheme({
   palette: {
@@ -26,11 +28,16 @@ const theme = createTheme({
     fontWeightMedium: 600,
     pFF: ["Inter"],
     sFF: ["Bricolage Grotesque"],
+    success:'green',
+    error:'red',
+    fili:'purple'
   },
 });
-
+const queryClient = new QueryClient()
 root.render(
   <React.StrictMode>
+    <QueryClientProvider client={queryClient}
+    >
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <Navbar />
@@ -40,6 +47,7 @@ root.render(
         <Footer />
       </ThemeProvider>
     </BrowserRouter>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 reportWebVitals();

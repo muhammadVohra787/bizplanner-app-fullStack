@@ -11,23 +11,93 @@ import {
   Typography,
   Container,
   Modal,
+  CircularProgress,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import "../styles/home.css";
-
+import { usePost } from "../api/user-authentication";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import useValidation from "../api/input-validation";
 export default function SignIn() {
+  const [open, setOpen] = useState(false);
+  const { validate, errors: validationErrors } = useValidation();
+  const [loginMsgBox, setLoginMsgBox] = useState(false);
+  const [responseMsg, setResponseMsg] = useState({
+    messageRes: "",
+    type: "",
+    icon: "",
+  });
+  const { isPending, mutateAsync } = usePost();
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const dataForm = new FormData(event.currentTarget);
+    const userData = {
+      email: dataForm.get("email"),
+      password: dataForm.get("password"),
+    };
+
+    const emailValidation = validate("email", userData.email);
+    const passwordValidation = validate("password", userData.password);
+
+    if (emailValidation && passwordValidation) {
+      setLoginMsgBox(true);
+      setResponseMsg({
+        responseMsg: "",
+        type: "",
+        icon: "",
+      });
+
+      mutateAsync({ postData: userData, url: "login" }).then((res) => {
+        console.log(res);
+        setLoginMsgBox(true);
+        setResponseMsg({
+          messageRes: res.data.message,
+          type: res.data.type ? "success" : "error",
+          icon: res.data.type ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                paddingBottom: "2rem",
+              }}
+            >
+              <CheckCircleOutlineIcon
+                color="success"
+                sx={{
+                  fontSize: "5.2rem",
+                }}
+              />
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                paddingBottom: "2rem",
+              }}
+            >
+              <CancelOutlinedIcon
+                color="error"
+                sx={{
+                  fontSize: "5.2rem",
+                }}
+              />
+            </Box>
+          ),
+        });
+      });
+    }
   };
-  const [open, setOpen] = useState(false);
+
   const handleToggle = (e) => {
     e.stopPropagation();
     setOpen(!open);
+  };
+
+  const handleMsgBoxClose = () => {
+    setLoginMsgBox(false);
   };
 
   return (
@@ -73,24 +143,27 @@ export default function SignIn() {
               sx={{ mt: 1 }}
             >
               <TextField
-                margin="normal"
                 required
                 fullWidth
                 id="email"
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                autoFocus
+                error={!!validationErrors.email}
+                helperText={validationErrors.email}
               />
+              <br />
+              <br />
               <TextField
-                margin="normal"
                 required
                 fullWidth
                 name="password"
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="current-password"
+                autoComplete="new-password"
+                error={!!validationErrors.password}
+                helperText={validationErrors.password}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
@@ -118,6 +191,50 @@ export default function SignIn() {
               </Grid>
             </Box>
           </Box>
+        </Box>
+      </Modal>
+      <Modal
+        open={loginMsgBox}
+        onClose={handleMsgBoxClose}
+        aria-labelledby="message-modal-title"
+        aria-describedby="message-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 300,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+            borderRadius: "20px",
+          }}
+          variant="contained"
+        >
+          {isPending ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CircularProgress color="inherit" />
+            </Box>
+          ) : (
+            <>
+              {responseMsg.icon}
+              <Typography
+                sx={{ textAlign: "center" }}
+                variant="subtitle1"
+                color={`${responseMsg.type}.main`}
+              >
+                {responseMsg.messageRes}
+              </Typography>
+            </>
+          )}
         </Box>
       </Modal>
     </Container>
