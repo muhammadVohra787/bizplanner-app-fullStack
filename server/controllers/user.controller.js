@@ -23,17 +23,18 @@ const signInUser = async (req, res) => {
   try {
     const existingUser = await User.findByEmail(email);
     if (!existingUser) {
+      console.log('signin user not found')
       return res
         .status(400)
         .json({ message: "Email not found, Register Now", type: false });
     }
-    console.log(existingUser.hashed_password);
     const isAuthenticated = User.authenticate(
       password.toString(),
       existingUser.salt,
       existingUser.hashed_password
     );
     if (!isAuthenticated) {
+      console.log('signin wrong passwordd')
       return res.status(400).json({ message: "Wrong Password", type: false });
     }
     const token = jwt.sign(

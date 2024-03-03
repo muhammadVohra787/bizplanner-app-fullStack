@@ -1,0 +1,188 @@
+import {
+  Avatar,
+  Button,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Grid,
+  Box,
+  Typography,
+  Modal,
+  Container,
+  Alert,
+} from "@mui/material";
+import { useModal } from "../components/userInput/use-modal";
+import ModalMessage from "../components/userInput/ModalMessage";
+import ResponseIcon from "../components/userInput/ResponseIcon";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import "../styles/home.css";
+import { usePost } from "../api/user-authentication";
+import useValidation from "../api/input-validation";
+import useSignIn from "react-auth-kit/hooks/useSignIn";
+import SignUp from "../components/SignUpModal";
+import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
+import {useNavigate } from "react-router-dom";
+
+import { useEffect } from "react";
+
+export default function SignIn({ type, text, style, fullWidthDirection }) {
+  const {
+    loginMsgBox,
+    setLoginMsgBox,
+    responseMsg,
+    setResponseMsg,
+    setOpen,
+    handleCloseAll,
+    handleMsgBoxClose,
+  } = useModal();
+  const { validate, errors: validationErrors } = useValidation();
+
+  const { isPending, mutateAsync } = usePost();
+
+  const isAuthenticated = useIsAuthenticated();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isAuthenticated) {
+      const lastVisitedUrl = -1 || "/";
+      navigate(lastVisitedUrl);
+    }
+  }, [isAuthenticated, navigate]);
+  const signInContext = useSignIn();
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const dataForm = new FormData(event.currentTarget);
+    const userData = {
+      email: dataForm.get("email"),
+      password: dataForm.get("password"),
+    };
+
+    const emailValidation = validate("email", userData.email);
+    const passwordValidation = validate("password", userData.password);
+
+    if (emailValidation && passwordValidation) {
+      setLoginMsgBox(true);
+      setResponseMsg({
+        responseMsg: "",
+        type: "",
+        icon: "",
+      });
+
+      mutateAsync({ postData: userData, url: "login" }).then((res) => {
+        if (res.data.type) {
+          signInContext({
+            expireIn: res.data.expiresIn,
+            userState: {
+              email: userData.email,
+            },
+            auth: {
+              token: res.data.token,
+              type: "Bearer",
+            },
+          });
+          setTimeout(() => {
+            setResponseMsg(false);
+            setOpen(false);
+            setLoginMsgBox(false);
+          }, 1500);
+        }
+
+        setLoginMsgBox(true);
+        setResponseMsg({
+          messageRes: res.data.message,
+          type: res.data.type ? "success" : "error",
+          icon: <ResponseIcon icon={res.data.type} />,
+        });
+      });
+    }
+  };
+
+  return (
+    <Container component="main" maxWidth="xs">
+      <Alert variant="outlined" severity="error">
+        Please Sign In First
+      </Alert>
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: "primary.main", alignItems: "center" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <TextField
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            error={!!validationErrors.email}
+            helperText={validationErrors.email}
+          />
+          <br />
+          <br />
+          <TextField
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="new-password"
+            error={!!validationErrors.password}
+            helperText={validationErrors.password}
+          />
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign In
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link href="#" variant="body2">
+                Forgot password?
+              </Link>
+            </Grid>
+            <Grid item>
+              <a onClick={handleCloseAll}>
+                <SignUp
+                  type="text"
+                  text={"Don't have an account? Sign Up"}
+                  style={{ fontSize: "12px" }}
+                />
+              </a>
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
+      <Modal
+        open={loginMsgBox}
+        onClose={handleMsgBoxClose}
+        aria-labelledby="message-modal-title"
+        aria-describedby="message-modal-description"
+      >
+        <>
+          <ModalMessage
+            isPending={isPending}
+            responseMsg={responseMsg}
+          ></ModalMessage>
+        </>
+      </Modal>
+    </Container>
+  );
+}

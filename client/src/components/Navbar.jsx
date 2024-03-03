@@ -17,6 +17,7 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   };
   const signOut = useSignOut();
+  
   return (
     <header
       data-thq="thq-navbar"
@@ -97,10 +98,33 @@ const Navbar = () => {
               </Link>
             </nav>
             {/* mobile Version */}
-            <div className="home-buttons1">
-              <SignIn className="home-login buttonFlat" />
-              <SignUp className="buttonFilled" />
-            </div>
+            <Box >
+        <SignIn type="text" text="Login" 
+        style={{
+          padding: 0,
+          margin:0,
+          minWidth:'20px'
+        }}/>
+          <SignUp type="text" text="Register" style={{
+            mt:1,
+            padding: 0
+          }}/>
+          <Button
+            variant="text"
+            color="primary"
+            sx={{
+              mt:1,
+              textAlign:'left',
+              alignItems:'left',
+              padding:0
+            }}
+            onClick={(e) => {
+              signOut();
+            }}
+          >
+            Sign Out
+          </Button>
+            </Box>
           </div>
         </div>
       )}

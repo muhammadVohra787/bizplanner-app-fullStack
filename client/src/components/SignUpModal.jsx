@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Avatar,
   Button,
@@ -6,26 +6,31 @@ import {
   Grid,
   Box,
   Typography,
-  Container,
   Modal,
-  CircularProgress,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { usePost } from "../api/user-authentication";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import useValidation from "../api/input-validation";
 import SignIn from "./SignInModal";
+import { useModal } from "./userInput/use-modal";
+import ModalMessage from "./userInput/ModalMessage";
+import ResponseIcon from "./userInput/ResponseIcon";
+
 export default function SignUp({ type, text, style }) {
-  const [open, setOpen] = useState(false);
+  const {
+    loginMsgBox,
+    setLoginMsgBox,
+    responseMsg,
+    setResponseMsg,
+    open,
+    setOpen,
+    handleCloseAll,
+    handleMsgBoxClose,
+    handleToggle,
+  } = useModal();
+
   const { validate, errors: validationErrors } = useValidation();
-  const [loginMsgBox, setLoginMsgBox] = useState(false);
-  const [responseMsg, setResponseMsg] = useState({
-    messageRes: "",
-    type: "",
-    icon: "",
-  });
   const { isPending, mutateAsync } = usePost();
 
   const handleSubmit = (event) => {
@@ -54,59 +59,19 @@ export default function SignUp({ type, text, style }) {
         setResponseMsg({
           messageRes: res.data.message,
           type: res.data.type ? "success" : "error",
-          icon: res.data.type ? (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                paddingBottom: "2rem",
-              }}
-            >
-              <CheckCircleOutlineIcon
-                color="success"
-                sx={{
-                  fontSize: "5.2rem",
-                }}
-              />
-            </Box>
-          ) : (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                paddingBottom: "2rem",
-              }}
-            >
-              <CancelOutlinedIcon
-                color="error"
-                sx={{
-                  fontSize: "5.2rem",
-                }}
-              />
-            </Box>
-          ),
+          icon: <ResponseIcon icon={res.data.type} />,
         });
+        if (res.data.type) {
+          setTimeout(() => {
+            setResponseMsg(false);
+            setOpen(false);
+            setLoginMsgBox(false);
+          }, 1500);
+        }
       });
     }
   };
 
-  const handleToggle = (e) => {
-    e.stopPropagation();
-    setOpen(!open);
-  };
-
-  const handleMsgBoxClose = () => {
-    setLoginMsgBox(false);
-  };
-  const handleCloseAll = () => {
-    setLoginMsgBox(false);
-    setOpen(false);
-    setResponseMsg({
-      responseMsg: "",
-      type: "",
-      icon: "",
-    });
-  };
   return (
     <Box
       sx={{
@@ -164,7 +129,7 @@ export default function SignUp({ type, text, style }) {
             >
               <CloseIcon />
             </Button>
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
               <LockOutlinedIcon />
             </Avatar>
 
@@ -260,43 +225,12 @@ export default function SignUp({ type, text, style }) {
         aria-labelledby="message-modal-title"
         aria-describedby="message-modal-description"
       >
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 300,
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            p: 4,
-            borderRadius: "20px",
-          }}
-          variant="contained"
-        >
-          {isPending ? (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <CircularProgress color="inherit" />
-            </Box>
-          ) : (
-            <>
-              {responseMsg.icon}
-              <Typography
-                sx={{ textAlign: "center" }}
-                variant="subtitle1"
-                color={`${responseMsg.type}.main`}
-              >
-                {responseMsg.messageRes}
-              </Typography>
-            </>
-          )}
-        </Box>
+        <>
+          <ModalMessage
+            isPending={isPending}
+            responseMsg={responseMsg}
+          ></ModalMessage>
+        </>
       </Modal>
     </Box>
   );
