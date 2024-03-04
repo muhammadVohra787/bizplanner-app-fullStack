@@ -9,6 +9,7 @@ import SignIn from "./views/SignInPage";
 import PrivateRoutes from "./PrivateRoutes";
 
 function App() {
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -31,7 +32,7 @@ function App() {
         path="publicroute1"
       />
       <Route
-        element={<PublicRoute text={"Welcome to Public Route #2"} />}
+        element={<PublicRoute2 text={"Welcome to Public Route #2"} />}
         path="publicroute2"
       />
     </Routes>

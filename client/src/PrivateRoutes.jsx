@@ -4,7 +4,7 @@ import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 const LastLocationContext = createContext();
 
 export const LastLocationProvider = ({ children }) => {
-  console.log("1");
+
   const [userLocation, setUserLocation] = useState(null);
   useEffect(() => {
     const getUserLocation = () => {
