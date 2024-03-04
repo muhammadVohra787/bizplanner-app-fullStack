@@ -1,7 +1,7 @@
-﻿#Robust-Authentication-Authorization
-#React JS, Node JS, Postgres SQL.
+﻿#Robust-Authentication-Authorization<br/>
+#React JS, Node JS, Postgres SQL. <br/>
 
-#To start app
-add .env file to the server,
-npm run install-deps #installing dependencies
-npm start #starting client and server
+#To start app <br/>
+add .env file to the server,<br/>
+npm run install-deps #installing dependencies<br/>
+npm start #starting client and server<br/>
