@@ -9,7 +9,7 @@ const createUserTableQuery = `
     hashed_password VARCHAR(255) NOT NULL,
     salt VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  );
+    );
 `;
 
 db.query(createUserTableQuery)

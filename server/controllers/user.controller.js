@@ -22,8 +22,9 @@ const signInUser = async (req, res) => {
   const { email, password } = req.body;
   try {
     const existingUser = await User.findByEmail(email);
+
     if (!existingUser) {
-      console.log('signin user not found')
+      console.log("signin user not found");
       return res
         .status(400)
         .json({ message: "Email not found, Register Now", type: false });
@@ -34,7 +35,7 @@ const signInUser = async (req, res) => {
       existingUser.hashed_password
     );
     if (!isAuthenticated) {
-      console.log('signin wrong passwordd')
+      console.log("signin wrong passwordd");
       return res.status(400).json({ message: "Wrong Password", type: false });
     }
     const token = jwt.sign(
@@ -42,15 +43,14 @@ const signInUser = async (req, res) => {
       process.env.SECRET_KEY,
       { expiresIn: "20m" }
     );
-
-    return res
-      .status(200)
-      .json({
-        token,
-        expiresIn: "20m",
-        message: "Login successful",
-        type: true,
-      });
+    console.log(existingUser.id);
+    return res.status(200).json({
+      token,
+      userId: existingUser.id,
+      expiresIn: "20m",
+      message: "Login successful",
+      type: true,
+    });
   } catch (err) {
     console.error("Error signing in user:", err);
     res.status(500).json({ message: "Internal server error" });

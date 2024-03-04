@@ -1,3 +1,5 @@
+//Make an env file for this to work!
+
 const { Pool } = require('pg');
 
 const pool = new Pool({

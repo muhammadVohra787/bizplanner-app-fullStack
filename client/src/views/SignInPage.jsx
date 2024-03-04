@@ -13,20 +13,19 @@ import {
   Alert,
 } from "@mui/material";
 import { useModal } from "../components/userInput/use-modal";
-import ModalMessage from "../components/userInput/ModalMessage";
+import ModalMessage from "../components/modal/ModalMessage";
 import ResponseIcon from "../components/userInput/ResponseIcon";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import "../styles/home.css";
 import { usePost } from "../api/user-authentication";
 import useValidation from "../api/input-validation";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 import SignUp from "../components/SignUpModal";
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useLastLocation } from "../PrivateRoutes";
+import { useEffect,useState } from "react";
 
-import { useEffect } from "react";
-
-export default function SignIn({ type, text, style, fullWidthDirection }) {
+export default function SignIn({ showError = true }) {
   const {
     loginMsgBox,
     setLoginMsgBox,
@@ -37,18 +36,19 @@ export default function SignIn({ type, text, style, fullWidthDirection }) {
     handleMsgBoxClose,
   } = useModal();
   const { validate, errors: validationErrors } = useValidation();
-
   const { isPending, mutateAsync } = usePost();
-
-  const isAuthenticated = useIsAuthenticated();
+  const { lastLocation } = useLastLocation();
+  const lastPathname = lastLocation ? lastLocation.pathname : -1;
   const navigate = useNavigate();
-  useEffect(() => {
-    if (isAuthenticated) {
-      const lastVisitedUrl = -1 || "/";
-      navigate(lastVisitedUrl);
-    }
-  }, [isAuthenticated, navigate]);
   const signInContext = useSignIn();
+  const isAuthenticated = useIsAuthenticated();
+  useEffect(() => {
+    if (showError && isAuthenticated()) {
+      navigate(lastPathname);
+
+    }
+  }, [isAuthenticated()]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const dataForm = new FormData(event.currentTarget);
@@ -73,7 +73,7 @@ export default function SignIn({ type, text, style, fullWidthDirection }) {
           signInContext({
             expireIn: res.data.expiresIn,
             userState: {
-              email: userData.email,
+              user_id: res.data.userId,
             },
             auth: {
               token: res.data.token,
@@ -81,12 +81,14 @@ export default function SignIn({ type, text, style, fullWidthDirection }) {
             },
           });
           setTimeout(() => {
+            if (showError) {
+              navigate(lastPathname);
+            }
             setResponseMsg(false);
             setOpen(false);
             setLoginMsgBox(false);
           }, 1500);
         }
-
         setLoginMsgBox(true);
         setResponseMsg({
           messageRes: res.data.message,
@@ -99,9 +101,16 @@ export default function SignIn({ type, text, style, fullWidthDirection }) {
 
   return (
     <Container component="main" maxWidth="xs">
-      <Alert variant="outlined" severity="error">
-        Please Sign In First
-      </Alert>
+      <br />
+      {!isAuthenticated() ? (
+        <Alert variant="outlined" severity="error">
+          Please Sign In First
+        </Alert>
+      ) : (
+        <Alert variant="outlined" severity="success">
+          You are Signed In
+        </Alert>
+      )}
       <Box
         sx={{
           marginTop: 8,
@@ -149,6 +158,7 @@ export default function SignIn({ type, text, style, fullWidthDirection }) {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            disabled={isAuthenticated()}
           >
             Sign In
           </Button>

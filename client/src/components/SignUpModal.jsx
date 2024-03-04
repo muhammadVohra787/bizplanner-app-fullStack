@@ -14,7 +14,7 @@ import { usePost } from "../api/user-authentication";
 import useValidation from "../api/input-validation";
 import SignIn from "./SignInModal";
 import { useModal } from "./userInput/use-modal";
-import ModalMessage from "./userInput/ModalMessage";
+import ModalMessage from "./modal/ModalMessage";
 import ResponseIcon from "./userInput/ResponseIcon";
 
 export default function SignUp({ type, text, style }) {
@@ -86,6 +86,7 @@ export default function SignUp({ type, text, style }) {
         className="RegisterBtn"
         sx={{
           ...style,
+          pt: 1.2,
         }}
       >
         {text}

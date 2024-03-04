@@ -11,10 +11,10 @@ import {
   Modal,
 } from "@mui/material";
 import { useModal } from "./userInput/use-modal";
-import ModalMessage from "./userInput/ModalMessage";
+import ModalMessage from "./modal/ModalMessage";
 import ResponseIcon from "./userInput/ResponseIcon";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import "../styles/home.css";
+
 import { usePost } from "../api/user-authentication";
 
 import useValidation from "../api/input-validation";
@@ -22,7 +22,10 @@ import useSignIn from "react-auth-kit/hooks/useSignIn";
 import CloseIcon from "@mui/icons-material/Close";
 import SignUp from "./SignUpModal";
 
-export default function SignIn({ type, text, style, fullWidthDirection }) {
+export default function SignIn({ type, text, style }) {
+  const { validate, errors: validationErrors } = useValidation();
+  const { isPending, mutateAsync } = usePost();
+  const signInContext = useSignIn();
   const {
     loginMsgBox,
     setLoginMsgBox,
@@ -34,11 +37,7 @@ export default function SignIn({ type, text, style, fullWidthDirection }) {
     handleMsgBoxClose,
     handleToggle,
   } = useModal();
-  const { validate, errors: validationErrors } = useValidation();
 
-  const { isPending, mutateAsync } = usePost();
-
-  const signInContext = useSignIn();
   const handleSubmit = (event) => {
     event.preventDefault();
     const dataForm = new FormData(event.currentTarget);
@@ -63,14 +62,16 @@ export default function SignIn({ type, text, style, fullWidthDirection }) {
           signInContext({
             expireIn: res.data.expiresIn,
             userState: {
-              email: userData.email,
+              user_id: res.data.userId,
             },
             auth: {
               token: res.data.token,
               type: "Bearer",
             },
           });
+
           setTimeout(() => {
+            window.location.reload();
             setResponseMsg(false);
             setOpen(false);
             setLoginMsgBox(false);
@@ -100,8 +101,8 @@ export default function SignIn({ type, text, style, fullWidthDirection }) {
         onClick={handleToggle}
         sx={{
           ...style,
+          pt: 1.2,
         }}
-        fullWidth={fullWidthDirection}
       >
         {text}
       </Button>

@@ -1,134 +1,92 @@
 import React, { useState } from "react";
-import "../styles/home.css";
 import { Link } from "react-router-dom";
-import { Button, Box } from "@mui/material";
+import { Button, Box, Alert, Typography, AppBar, Toolbar } from "@mui/material";
 import SignIn from "./SignInModal";
 import SignUp from "./SignUpModal";
 import useSignOut from "react-auth-kit/hooks/useSignOut";
+import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
+import { useNavigate } from "react-router-dom";
+
 const Navbar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const closeMobileMenu = (event) => {
-    event.stopPropagation();
-    setIsMobileMenuOpen(false);
-  };
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const isAuthenticated = useIsAuthenticated();
+  const navigate = useNavigate();
   const signOut = useSignOut();
-  
+
+  const handleSignOut = () => {
+    signOut();
+    setShowSuccessAlert(true);
+    const lastVisitedUrl = -1;
+    lastVisitedUrl === -1 ? window.location.reload() : navigate(lastVisitedUrl);
+    setTimeout(() => {
+      setShowSuccessAlert(false);
+    }, 2000);
+  };
+
   return (
-    <header
-      data-thq="thq-navbar"
-      className="navbarContainer home-navbar-interactive"
-    >
-      <span className="logo">BizPlanner</span>
-      <div data-thq="thq-navbar-nav" className="home-desktop-menu">
-        <nav className="home-links">
-          <Link className="bodySmall" to="/">
-            Home
+    <AppBar position="static" color="default">
+      <Toolbar>
+        <Typography variant="h6" sx={{ flexGrow: 0 }}>
+          <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
+            MVAuth
           </Link>
-          <Link className="home-nav22 bodySmall">Features</Link>
-          <Link className="home-nav32 bodySmall">Expenses</Link>
-          <Link className="home-nav42 bodySmall">Challenges</Link>
-          <Link className="home-nav52 bodySmall">Goals</Link>
-        </nav>
-        <Box sx={{ display: "flex" }}>
-          <SignIn type="text" text="Login" />
-          <SignUp  type="contained" text="Register" />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={(e) => {
-              signOut();
-            }}
-          >
-            Sign Out
-          </Button>
-        </Box>
-      </div>
-      <div
-        data-thq="thq-burger-menu"
-        className="home-burger-menu"
-        onClick={toggleMobileMenu}
-      >
-        <svg viewBox="0 0 1024 1024" className="home-icon socialIcons">
-          <path d="M128 554.667h768c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-768c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667zM128 298.667h768c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-768c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667zM128 810.667h768c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-768c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667z"></path>
-        </svg>
-      </div>
-      {/* Mobile menu */}
-      {isMobileMenuOpen && (
-        <div
-          data-thq="thq-mobile-menu"
-          className="home-mobile-menu1 mobileMenu"
-          onClick={toggleMobileMenu} // Close mobile menu when clicked outside
+        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            gap: "32px",
+            justifyContent: "center",
+            flexGrow: 1,
+          }}
         >
-          <div className="home-nav">
-            <div className="home-top">
-              <span className="logo">ENTREPRENEURS</span>
-              <div
-                data-thq="thq-close-menu"
-                className="home-close-menu"
-                onClick={closeMobileMenu}
-              >
-                <svg
-                  viewBox="0 0 1024 1024"
-                  className="home-icon02 socialIcons"
-                >
-                  <path d="M810 274l-238 238 238 238-60 60-238-238-238 238-60-60 238-238-238-238 60-60 238 238 238-238z"></path>
-                </svg>
-              </div>
-            </div>
-            <nav className="home-links1">
-              <Link className="home-nav121 bodySmall" to="/">
-                Home
-              </Link>
-              <Link className="home-nav221 bodySmall" to="/features">
-                Features
-              </Link>
-              <Link className="home-nav321 bodySmall" to="/expenses">
-                Expenses
-              </Link>
-              <Link className="home-nav421 bodySmall" to="/challenges">
-                Challenges
-              </Link>
-              <Link className="home-nav521 bodySmall" to="/goals">
-                Goals
-              </Link>
-            </nav>
-            {/* mobile Version */}
-            <Box >
-        <SignIn type="text" text="Login" 
-        style={{
-          padding: 0,
-          margin:0,
-          minWidth:'20px'
-        }}/>
-          <SignUp type="text" text="Register" style={{
-            mt:1,
-            padding: 0
-          }}/>
-          <Button
-            variant="text"
-            color="primary"
-            sx={{
-              mt:1,
-              textAlign:'left',
-              alignItems:'left',
-              padding:0
-            }}
-            onClick={(e) => {
-              signOut();
-            }}
+          <Link
+            to="/publicroute1"
+            style={{ color: "inherit", textDecoration: "none" }}
           >
-            Sign Out
-          </Button>
-            </Box>
-          </div>
-        </div>
+            Public Route 1
+          </Link>
+          <Link
+            to="/publicroute2"
+            style={{ color: "inherit", textDecoration: "none" }}
+          >
+            Public Route 2
+          </Link>
+          <Link
+            to="/secureroute1"
+            style={{ color: "inherit", textDecoration: "none" }}
+          >
+            Secure Route 1
+          </Link>
+          <Link
+            to="/secureroute2"
+            style={{ color: "inherit", textDecoration: "none" }}
+          >
+            Secure Route 2
+          </Link>
+        </Box>
+        <Box sx={{ display: "flex", gap: "16px" }}>
+          {isAuthenticated() ? (
+            <Button color="inherit" onClick={handleSignOut}>
+              Sign Out
+            </Button>
+          ) : (
+            <>
+              <SignIn type="text" text="Login" />
+              <SignUp type="text" text="Register" />
+            </>
+          )}
+        </Box>
+      </Toolbar>
+      {showSuccessAlert && (
+        <Alert
+          severity="success"
+          onClose={() => setShowSuccessAlert(false)}
+          sx={{ backgroundColor: "#43a047" }}
+        >
+          You have successfully signed out.
+        </Alert>
       )}
-    </header>
+    </AppBar>
   );
 };
 
