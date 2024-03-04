@@ -1,11 +1,13 @@
 {
     "name": "my-app",
     "scripts": {
-        "start": "concurrently \"npm run server\" \"npm run client\"",
-        "server": "cd server && nodemon server",
-        "client": "cd client && npm start"
+      "start": "concurrently \"npm run server\" \"npm run client\"",
+      "server": "cd server && nodemon server",
+      "client": "cd client && npm start",
+      "install-deps": "cd server && npm install && cd ../client && npm install"
     },
     "dependencies": {
-        "concurrently": "^8.2.2"
+      "concurrently": "^8.2.2"
     }
-}
+  }
+  
