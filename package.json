@@ -1,8 +1,6 @@
 {
     "name": "my-app",
-    "engines": {
-        "node": "18.x"
-       },       
+     
     "scripts": {
         "start": "concurrently \"npm run server\" \"npm run client\"",
         "server": "cd server && nodemon server",
