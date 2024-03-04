@@ -1,0 +1,4 @@
+{ "version": 18, 
+    "rewrites": [{ "./server.js": "/(.*)", 
+    "destination": "/api" }] 
+}
