@@ -26,7 +26,7 @@ export const usePost = () => {
   const { isPending, mutateAsync, isSuccess } = useMutation({
     mutationFn: async ({ postData, url }) => {
       try {
-        await wait(2000);
+        await wait(1000);
         const res = await axios.post(`${API_URL}/${url}`, postData);
 
         return res;
