@@ -1,7 +1,10 @@
 import { Mutation, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.REACT_APP_STAGE === 'DEVELOPMENT' ? 
+    process.env.REACT_APP_API_URL_DEP :
+    process.env.REACT_APP_API_URL_DEV;
+
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 

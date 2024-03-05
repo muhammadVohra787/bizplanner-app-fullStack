@@ -7,6 +7,7 @@ import PublicRoute from "./views/PublicRoute";
 import PublicRoute2 from "./views/PublicRoute2";
 import SignIn from "./views/SignInPage";
 import PrivateRoutes from "./PrivateRoutes";
+import ChangePassword from "./views/ChangePassword";
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
           path="/secureroute2"
           exact
         />
+        <Route element={<ChangePassword/>} path="/changePass"/>
       </Route>
       <Route
         element={<PublicRoute text={"Welcome to Public Route #1"} />}

@@ -20,7 +20,7 @@ class User {
   constructor(name, email, password) {
     this.name = name;
     this.email = email;
-    this.salt = this.makeSalt();
+    this.salt = User.makeSalt();
     this.hashed_password = User.encryptPassword(password, this.salt);
   }
 
@@ -32,6 +32,7 @@ class User {
       RETURNING *;
     `;
     const values = [user.name, user.email, user.hashed_password, user.salt];
+    console.log(values);
     try {
       const result = await db.query(query, values);
       return result.rows[0];
@@ -57,7 +58,6 @@ class User {
   static authenticate(plainText, salt, hashPass) {
     return this.encryptPassword(plainText, salt) === hashPass;
   }
-
   static encryptPassword(password, salt) {
     if (!password) return "";
     try {
@@ -68,8 +68,27 @@ class User {
     }
   }
 
-  makeSalt() {
+  static makeSalt() {
     return `${Math.round(new Date().valueOf() * Math.random())}`;
+  }
+  static async updateUserPassword(newPassword,email) {
+    const newSalt = User.makeSalt();
+    const newHashedPassword = User.encryptPassword(newPassword, newSalt);
+    console.log("1111", newSalt)
+    console.log("!!!!", newHashedPassword)
+    const query = `
+      UPDATE users 
+      SET hashed_password = $1, salt = $2
+      WHERE email = $3;
+    `;
+    const values = [newHashedPassword, newSalt,email];
+    try {
+      const result = await db.query(query, values);
+      return result.rows[0];
+    } catch (error) {
+      console.error("Error creating user:", error);
+      throw error;
+    }
   }
 }
 

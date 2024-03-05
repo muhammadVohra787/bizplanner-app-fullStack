@@ -56,5 +56,36 @@ const signInUser = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
-module.exports = { createUser, signInUser };
+const changePassword = async (req, res) => {
+  console.log(req.body);
+  const { email, lastPassword, newPassword } = req.body;
+  const existingUser = await User.findByEmail(email);
+  if (!existingUser) {
+    console.log("signin user not found");
+    return res
+      .status(400)
+      .json({ message: "Email not found, Try Again", type: false });
+  }
+  console.log('!!userfound')
+  const isAuthenticated = User.authenticate(
+    lastPassword.toString(),
+    existingUser.salt,
+    existingUser.hashed_password
+  );
+  if (!isAuthenticated) {
+    console.log("signin wrong passwordd");
+    return res.status(400).json({ message: "Wrong Password", type: false });
+  }
+  console.log('!!user Authenticated')
+  try {
+    await User.updateUserPassword(newPassword, existingUser.email);
+    return res.status(201).json({
+      message: "Password Changed, Login With New Password Next Time",
+      type: true,
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Internal Server Error", type: false });
+    console.log(err);
+  }
+};
+module.exports = { createUser, signInUser, changePassword };
