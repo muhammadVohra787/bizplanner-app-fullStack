@@ -84,6 +84,9 @@ export default function SignIn({ showError = true }) {
             if (showError) {
               navigate(lastPathname);
             }
+            else{
+              window.location.reload()
+            }
             setResponseMsg(false);
             setOpen(false);
             setLoginMsgBox(false);
