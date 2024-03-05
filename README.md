@@ -1,10 +1,11 @@
 # **Robust Authentication & Authorization**
 
 Welcome to **Robust Authentication & Authorization**, a comprehensive solution designed to streamline authentication and authorization processes in your projects. This template offers a robust foundation for future endeavors, complete with API call hooks, user authentication hooks, and user location tracking functionalities. Additionally, it features multiple meticulously crafted components that can be easily reused across various projects.
-
+#### Deployed: <a>https://auth-app-full-stack-beta.vercel.app/</a>
 ## Technologies Utilized
 
-![React Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1280px-React-icon.svg.png) ![Node.js Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/1280px-Node.js_logo.svg.png) ![PostgreSQL Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1280px-Postgresql_elephant.svg.png) ![Material-UI Logo](https://mui.com/static/logo_raw.svg)
+![React Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/64px-React-icon.svg.png) ![Node.js Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/64px-Node.js_logo.svg.png) ![PostgreSQL Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/64px-Postgresql_elephant.svg.png) <img src="https://mui.com/static/logo.png" width="64" height="64" alt="Material-UI Logo">
+
 
 ### Additional Libraries
 - React Auth Kit
