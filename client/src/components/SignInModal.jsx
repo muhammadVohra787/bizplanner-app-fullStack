@@ -198,7 +198,7 @@ export default function SignIn({ type, text, style }) {
                     Forgot password?
                   </Link>
                 </Grid>
-                <Grid item>
+                <Grid item >
                   <a onClick={handleCloseAll}>
                     <SignUp
                       type="text"

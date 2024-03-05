@@ -16,6 +16,7 @@ const Footer = () => {
         top: "auto",
         bottom: 0,
         boxShadow: `0px 0px 10px gray`,
+        zIndex: 9999,
       }}
     >
       <Toolbar>

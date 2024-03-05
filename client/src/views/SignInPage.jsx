@@ -23,7 +23,7 @@ import SignUp from "../components/SignUpModal";
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 import { useNavigate } from "react-router-dom";
 import { useLastLocation } from "../PrivateRoutes";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function SignIn({ showError = true }) {
   const {
@@ -45,7 +45,6 @@ export default function SignIn({ showError = true }) {
   useEffect(() => {
     if (showError && isAuthenticated()) {
       navigate(lastPathname);
-
     }
   }, [isAuthenticated()]);
 
@@ -83,9 +82,8 @@ export default function SignIn({ showError = true }) {
           setTimeout(() => {
             if (showError) {
               navigate(lastPathname);
-            }
-            else{
-              window.location.reload()
+            } else {
+              window.location.reload();
             }
             setResponseMsg(false);
             setOpen(false);
@@ -117,6 +115,7 @@ export default function SignIn({ showError = true }) {
       <Box
         sx={{
           marginTop: 8,
+          mb: 10,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
