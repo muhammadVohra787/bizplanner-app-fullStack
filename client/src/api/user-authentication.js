@@ -4,7 +4,7 @@ import axios from "axios";
 const API_URL = process.env.REACT_APP_STAGE === 'DEVELOPMENT' ? 
     process.env.REACT_APP_API_URL_DEP :
     process.env.REACT_APP_API_URL_DEV;
-
+const STAGE= process.env.REACT_APP_STAGE
 console.log(API_URL)
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -14,7 +14,9 @@ export const useGet = (url) => {
     queryKey: ["useTestData"],
     queryFn: async () => {
       try {
-        await wait(2000);
+        if(STAGE==="PRODUCTION"){
+          await wait(1000);
+        }
         const response = await axios.get(`${API_URL}/${url}`);
         return response.data;
       } catch (error) {
@@ -29,7 +31,9 @@ export const usePost = () => {
   const { isPending, mutateAsync, isSuccess } = useMutation({
     mutationFn: async ({ postData, url }) => {
       try {
-        await wait(1000);
+        if(STAGE==="PRODUCTION"){
+          await wait(1000);
+        }
         const res = await axios.post(`${API_URL}/${url}`, postData);
 
         return res;
