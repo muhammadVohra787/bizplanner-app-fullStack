@@ -44,13 +44,13 @@ const signInUser = async (req, res) => {
     const token = jwt.sign(
       { userId: existingUser.id },
       process.env.SECRET_KEY,
-      { expiresIn: "20d" }
+      { expiresIn: "2d" }
     );
     console.log(existingUser.id);
     return res.status(200).json({
       token,
       userId: existingUser.id,
-      expiresIn: "20d",
+      expiresIn: "2d",
       message: "Login successful",
       type: true,
     });
