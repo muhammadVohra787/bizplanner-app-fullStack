@@ -4,7 +4,6 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  Link,
   Grid,
   Box,
   Typography,
@@ -21,10 +20,10 @@ import useValidation from "../api/input-validation";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 import SignUp from "../components/SignUpModal";
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useLastLocation } from "../PrivateRoutes";
 import { useEffect, useState } from "react";
-
+import ForgotPassword from "./ForgotPasswordPage";
 export default function SignIn({ showError = true }) {
   const {
     loginMsgBox,
@@ -164,23 +163,36 @@ export default function SignIn({ showError = true }) {
           >
             Sign In
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <a onClick={handleCloseAll}>
-                <SignUp
-                  type="text"
-                  text={"Don't have an account? Sign Up"}
-                  style={{ fontSize: "12px" }}
-                />
-              </a>
-            </Grid>
-          </Grid>
         </Box>
+        <Grid container item sx={{ p: 0 }}>
+          <Grid item>
+            <Link
+              to="/forgotPassword"
+              onClick={handleCloseAll}
+              component="button"
+              style={{
+                color: "#080a45",
+                fontWeight: 500,
+              }}
+            >
+              FORGOT PASSWORD?
+            </Link>
+          </Grid>
+          <Grid item xs={10}>
+            <a onClick={handleCloseAll}>
+              <SignUp
+                type="text"
+                text={"Don't have an account? Sign Up"}
+                style={{
+                  fontSize: "15px",
+                  p: 0,
+                  m: 0,
+                  flexDirection: "end",
+                }}
+              />
+            </a>
+          </Grid>
+        </Grid>
       </Box>
       <Modal
         open={loginMsgBox}

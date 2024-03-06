@@ -4,7 +4,6 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  Link,
   Grid,
   Box,
   Typography,
@@ -16,11 +15,12 @@ import ResponseIcon from "./userInput/ResponseIcon";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import { usePost } from "../api/user-authentication";
-
+import ForgotPassword from "../views/ForgotPasswordPage";
 import useValidation from "../api/input-validation";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 import CloseIcon from "@mui/icons-material/Close";
 import SignUp from "./SignUpModal";
+import { Link } from "react-router-dom";
 
 export default function SignIn({ type, text, style }) {
   const { validate, errors: validationErrors } = useValidation();
@@ -192,23 +192,31 @@ export default function SignIn({ type, text, style }) {
               >
                 Sign In
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item >
-                  <a onClick={handleCloseAll}>
-                    <SignUp
-                      type="text"
-                      text={"Don't have an account? Sign Up"}
-                      style={{ fontSize: "12px" }}
-                    />
-                  </a>
-                </Grid>
-              </Grid>
             </Box>
+            <Grid container>
+              <Grid item xs>
+                <Link
+                  to="/forgotPassword"
+                  onClick={handleCloseAll}
+                  component="button"
+                  style={{
+                    color: "#080a45",
+                    fontWeight: 500,
+                  }}
+                >
+                  Forgot Password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <a onClick={handleCloseAll}>
+                  <SignUp
+                    type="text"
+                    text={"Don't have an account? Sign Up"}
+                    style={{ fontSize: "13px", p: 0 }}
+                  />
+                </a>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
       </Modal>

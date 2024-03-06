@@ -5,25 +5,25 @@ const API_URL = process.env.REACT_APP_STAGE === 'DEVELOPMENT' ?
     process.env.REACT_APP_API_URL_DEP :
     process.env.REACT_APP_API_URL_DEV;
 
-
+console.log(API_URL)
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 //sample get query template
-// export const useGet = (url) => {
-//   const { data, isLoading, isError, isLoadingError } = useQuery({
-//     queryKey: ["useTestData"],
-//     queryFn: async () => {
-//       try {
-//         await wait(2000);
-//         const response = await axios.get(`${API_URL}/${url}`);
-//         return response.data;
-//       } catch (error) {
-//         throw error;
-//       }
-//     },
-//   });
-//   return { data, isLoading, isError };
-// };
+export const useGet = (url) => {
+  const { isPending,data, isLoading, isError } = useQuery({
+    queryKey: ["useTestData"],
+    queryFn: async () => {
+      try {
+        await wait(2000);
+        const response = await axios.get(`${API_URL}/${url}`);
+        return response.data;
+      } catch (error) {
+        throw error;
+      }
+    },
+  });
+  return { data, isLoading, isError,isPending };
+};
 
 export const usePost = () => {
   const { isPending, mutateAsync, isSuccess } = useMutation({

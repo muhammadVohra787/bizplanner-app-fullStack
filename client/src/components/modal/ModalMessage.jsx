@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, CircularProgress, Typography } from '@mui/material';
 
-export default function ModalMessage({ isPending, responseMsg }) {
+export default function ModalMessage({ isPending, responseMsg,header }) {
   
  return (
     <Box
@@ -26,6 +26,7 @@ export default function ModalMessage({ isPending, responseMsg }) {
             alignItems: "center",
           }}
         >
+          {header}
           <CircularProgress color="inherit" />
         </Box>
       ) : (

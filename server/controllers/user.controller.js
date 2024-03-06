@@ -1,5 +1,8 @@
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
+const Token = require("../models/userToken.model");
+
+const { sendPasswordResetEmail } = require("../assets/forgotPassword");
 const createUser = async (req, res) => {
   const { name, email, password } = req.body;
   try {
@@ -66,7 +69,7 @@ const changePassword = async (req, res) => {
       .status(400)
       .json({ message: "Email not found, Try Again", type: false });
   }
-  console.log('!!userfound')
+  console.log("!!userfound");
   const isAuthenticated = User.authenticate(
     lastPassword.toString(),
     existingUser.salt,
@@ -76,7 +79,7 @@ const changePassword = async (req, res) => {
     console.log("signin wrong passwordd");
     return res.status(400).json({ message: "Wrong Password", type: false });
   }
-  console.log('!!user Authenticated')
+  console.log("!!user Authenticated");
   try {
     await User.updateUserPassword(newPassword, existingUser.email);
     return res.status(201).json({
@@ -88,4 +91,32 @@ const changePassword = async (req, res) => {
     console.log(err);
   }
 };
-module.exports = { createUser, signInUser, changePassword };
+
+const updatePasswordLink = async (req, res) => {
+  const { email, domain } = req.body;
+  const existingUser = await User.findByEmail(email);
+
+  if (!existingUser) {
+    console.log("signin user not found");
+    return res
+      .status(400)
+      .json({ message: "Email not found, Try Again", type: false });
+  }
+  const userToken = await Token.createToken(email);
+  console.log(userToken)
+  try {
+    await sendPasswordResetEmail(existingUser.email, userToken);
+    
+    return res.status(201).json({
+      message: "An email containing a verification code will be sent shortly",
+      type: true,
+    });
+  } catch (err) {
+    console.error("Error sending password reset email:", err);
+    return res
+      .status(500)
+      .json({ message: "Internal Server Error", type: false });
+  }
+};
+
+module.exports = { createUser, signInUser, changePassword, updatePasswordLink };

@@ -1,6 +1,6 @@
 // Make an env file for this to work!
 const { Pool } = require("pg");
-
+ 
 console.log(process.env.STAGE);
 const pool = new Pool({
   ...(process.env.STAGE === "PRODUCTION"

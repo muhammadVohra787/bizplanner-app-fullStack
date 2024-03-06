@@ -52,11 +52,18 @@ export default function useValidation() {
         return isValid;
       }
       if (field === "newPasswordR") {
-        console.log(field, value, newValue);
         const isValid = value === newValue;
         updateErrors(
           "newPasswordR",
           isValid ? undefined : "Passwords Dont Match"
+        );
+        return isValid;
+      }
+      if (field === "verificationCode") {
+        const isValid = value.length === 7;
+        updateErrors(
+          "verificationCode",
+          isValid ? undefined : "Verification Code is 7 digits"
         );
         return isValid;
       }

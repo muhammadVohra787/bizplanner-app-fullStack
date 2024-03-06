@@ -59,22 +59,16 @@ const Navbar = () => {
             Public1
           </Link>
           <Link
-            to="/publicroute2"
-            style={{ color: "inherit", textDecoration: "none" }}
-          >
-            Public2
-          </Link>
-          <Link
             to="/secureroute1"
             style={{ color: "inherit", textDecoration: "none" }}
           >
             Secure1
           </Link>
           <Link
-            to="/secureroute2"
+            to="/forgotPassword"
             style={{ color: "inherit", textDecoration: "none" }}
           >
-            Secure2
+            Forgot Pass
           </Link>
           <Link
             to="/changePass"
