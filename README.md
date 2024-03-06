@@ -10,8 +10,10 @@ Welcome to **Robust Authentication & Authorization**, a comprehensive solution d
 ### Additional Libraries
 - React Auth Kit
 - Tanstack Query
-
 ---
+
+### Nodemailer Integration
+Nodemailer is used to handle email notifications for the forget password functionality. Ensure that you have configured Nodemailer properly in your project to enable this feature. You may need to set up SMTP credentials or use other email service providers for sending emails.
 
 ### Getting Started
 
