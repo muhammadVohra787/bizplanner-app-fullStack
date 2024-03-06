@@ -32,14 +32,8 @@ const TokenVerify = () => {
     setLoginMsgBox,
     responseMsg,
     setResponseMsg,
-    open,
-    setOpen,
-    handleCloseAll,
     handleMsgBoxClose,
-    handleToggle,
   } = useModal();
-  const lastPathname = lastLocation ? lastLocation.pathname : -1;
-  const currentDomain = window.location.origin;
   const handleSubmit = (event) => {
     event.preventDefault();
     const dataForm = new FormData(event.currentTarget);

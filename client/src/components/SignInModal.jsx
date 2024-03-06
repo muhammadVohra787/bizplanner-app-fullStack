@@ -15,7 +15,6 @@ import ResponseIcon from "./userInput/ResponseIcon";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import { usePost } from "../api/user-authentication";
-import ForgotPassword from "../views/ForgotPasswordPage";
 import useValidation from "../api/input-validation";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 import CloseIcon from "@mui/icons-material/Close";
