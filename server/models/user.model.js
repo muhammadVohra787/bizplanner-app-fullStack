@@ -24,7 +24,7 @@ class User {
     this.email = email;
     this.salt = User.makeSalt();
     this.hashed_password = User.encryptPassword(password, this.salt);
-    this.unique_id = this.createUuid();
+    this.unique_id = User.createUuid();
   }
 
   static async create(name, email, password) {
@@ -57,7 +57,7 @@ class User {
       throw error;
     }
   }
-  createUuid(){
+  static createUuid(){
     const res =uuidv4()
     console.log(res)
     return res
