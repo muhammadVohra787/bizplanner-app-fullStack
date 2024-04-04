@@ -7,6 +7,9 @@ const transporter = nodemailer.createTransport({
     user: sender_email,
     pass: sender_pass,
   },
+  tls: {
+    rejectUnauthorized: false,
+  },
 });
 async function sendPasswordResetEmail(email, token) {
   console.log("Sending email to:", email);
