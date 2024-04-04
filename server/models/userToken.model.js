@@ -24,12 +24,12 @@ class Token {
     try {
       const token = generateRandomCode();
       const expiry = new Date(new Date().getTime() + 20 * 60000);
-      const preQuery = `Delete From reset_password_codes where email = $1`
-      await db.query(preQuery,[email])
+      const preQuery = `Delete From reset_password_codes where email = $1`;
+      await db.query(preQuery, [email]);
       const query = `INSERT INTO reset_password_codes (token, expiry, email) VALUES ($1, $2, $3)`;
       const result = await db.query(query, [token, expiry, email]);
 
-      console.log("Token created successfully", result);
+      console.log("Token created successfully", result.rows[0]);
       return token;
     } catch (error) {
       console.error("Error creating token:", error);
@@ -40,14 +40,14 @@ class Token {
       const query = `SELECT * FROM reset_password_codes WHERE email = $1 AND token = $2 AND expiry > NOW()`;
       const result = await db.query(query, [email, token]);
       if (result.rows.length > 0) {
-        this.cleanOutToken(token,email)
+        this.cleanOutToken(token, email);
         return true;
       } else {
         return false;
       }
     } catch (err) {
       console.error("Error checking token: ", err);
-      return false; 
+      return false;
     }
   }
 

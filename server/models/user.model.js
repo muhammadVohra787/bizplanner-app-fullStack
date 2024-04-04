@@ -34,7 +34,13 @@ class User {
       VALUES ($1, $2, $3, $4, $5)
       RETURNING *;
     `;
-    const values = [user.name, user.email, user.hashed_password, user.salt,user.unique_id];
+    const values = [
+      user.name,
+      user.email,
+      user.hashed_password,
+      user.salt,
+      user.unique_id,
+    ];
     console.log(values);
     try {
       const result = await db.query(query, values);
@@ -57,10 +63,10 @@ class User {
       throw error;
     }
   }
-  createUuid(){
-    const res =uuidv4()
-    console.log(res)
-    return res
+  static createUuid() {
+    const res = uuidv4();
+    console.log(res);
+    return res;
   }
   static authenticate(plainText, salt, hashPass) {
     return this.encryptPassword(plainText, salt) === hashPass;
