@@ -1,3 +1,5 @@
+
+//TODO: add send again functionality 
 import React, { useState } from "react";
 import { usePost } from "../../api/user-authentication";
 import useValidation from "../../api/input-validation";
@@ -94,7 +96,9 @@ const TokenVerify = () => {
           <Typography variant="h6" color="initial">
             Can't find it? Give it a few minutes
           </Typography>
-          <Button variant="text" color="error">
+          
+          
+          <Button variant="text" color="error" disabled>
             Send Again
           </Button>
           <br />

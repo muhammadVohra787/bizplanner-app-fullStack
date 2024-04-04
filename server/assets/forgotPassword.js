@@ -7,9 +7,6 @@ const transporter = nodemailer.createTransport({
     user: sender_email,
     pass: sender_pass,
   },
-  tls: {
-    rejectUnauthorized: false,
-  },
 });
 async function sendPasswordResetEmail(email, token) {
   console.log("Sending email to:", email);
@@ -37,7 +34,7 @@ async function sendPasswordResetEmail(email, token) {
       console.error("Error sending verification code email:", error);
     } else {
       console.log("Verification code email sent:", info.response);
-      transporter.close()
+      transporter.close();
     }
   });
 }
